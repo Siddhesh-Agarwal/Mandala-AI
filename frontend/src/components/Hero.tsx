@@ -63,7 +63,7 @@ export const Hero = () => {
         </div>
 
         {/* Stats */}
-        <div className="mt-16 grid grid-cols-3 gap-8 max-w-md mx-auto">
+        <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
           {[
             {
               title: "50K+",
@@ -78,11 +78,14 @@ export const Hero = () => {
               description: "AI Generation",
             },
           ].map((item) => (
-            <div key={item.title} className="text-center">
-              <div className="text-3xl font-bold text-primary-foreground">
+            <div
+              key={item.title}
+              className="text-center bg-secondary/75 border-2 border-secondary rounded-md p-4"
+            >
+              <div className="text-3xl font-bold text-secondary-foreground">
                 {item.title}
               </div>
-              <div className="text-primary-foreground/80 text-sm font-inter">
+              <div className="text-secondary-foreground/80 text-sm">
                 {item.description}
               </div>
             </div>
