@@ -7,9 +7,17 @@ import { cache } from "hono/cache";
 import { imageTable } from "./db/schema";
 import { filterSchema, generateSchema } from "./schema";
 import { generateImage } from "./utils";
+import { cors } from "hono/cors";
 
 const app = new Hono().basePath("/api");
 const db = drizzle(env.MY_DB);
+
+app.use(
+  "*",
+  cors({
+    origin: "https://mandala-ai.pages.dev/",
+  }),
+);
 
 app.get("/health", (c) => {
   return c.text("OK");
