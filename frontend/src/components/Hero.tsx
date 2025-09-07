@@ -64,30 +64,29 @@ export const Hero = () => {
 
         {/* Stats */}
         <div className="mt-16 grid grid-cols-3 gap-8 max-w-md mx-auto">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-primary-foreground font-playfair">
-              50K+
+          {[
+            {
+              title: "50K+",
+              description: "Patterns Created",
+            },
+            {
+              title: "100+",
+              description: "Design Styles",
+            },
+            {
+              title: "24/7",
+              description: "AI Generation",
+            },
+          ].map((item) => (
+            <div key={item.title} className="text-center">
+              <div className="text-3xl font-bold text-primary-foreground">
+                {item.title}
+              </div>
+              <div className="text-primary-foreground/80 text-sm font-inter">
+                {item.description}
+              </div>
             </div>
-            <div className="text-primary-foreground/80 text-sm font-inter">
-              Patterns Created
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-primary-foreground font-playfair">
-              100+
-            </div>
-            <div className="text-primary-foreground/80 text-sm font-inter">
-              Design Styles
-            </div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-primary-foreground font-playfair">
-              24/7
-            </div>
-            <div className="text-primary-foreground/80 text-sm font-inter">
-              AI Generation
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

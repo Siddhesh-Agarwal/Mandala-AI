@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/a11y/useValidAnchor: <Placeholder links> */
 import { Sparkles } from "lucide-react";
 
 export const Footer = () => {
@@ -48,23 +47,8 @@ export const Footer = () => {
         <div className="border-t border-background/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-background/60 font-inter text-sm mb-4 md:mb-0">
-              © 2024 MandalaAI. All rights reserved. Preserving tradition
-              through innovation.
+              © 2025 Centille. All rights reserved.
             </p>
-            <div className="flex gap-6 text-sm font-inter">
-              <a
-                href="#"
-                className="text-background/60 hover:text-background transition-colors"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-background/60 hover:text-background transition-colors"
-              >
-                Terms of Service
-              </a>
-            </div>
           </div>
         </div>
       </div>

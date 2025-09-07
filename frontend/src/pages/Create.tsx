@@ -195,7 +195,7 @@ export default function CreatePage() {
         ) : isError ? (
           <Card className="bg-card border border-destructive rounded-lg p-8 shadow-glow">
             <CardContent className="text-center py-8">
-              <div className="text-destructive-foreground bg-destructive/10 border border-destructive py-4 px-6 rounded-lg">
+              <div className="text-destructive-foreground bg-destructive/75 border border-destructive py-4 px-6 rounded-lg">
                 <p className="font-semibold mb-2">Generation Failed</p>
                 <p className="text-sm">
                   {error instanceof Error

@@ -117,7 +117,7 @@ export default function GalleryPage() {
 				</div>
 			) : isError ? (
 				<div className="text-center py-20">
-					<div className="text-destructive-foreground bg-destructive/10 border border-destructive py-4 px-6 rounded-lg text-base max-w-md mx-auto">
+					<div className="text-destructive-foreground bg-destructive/75 border border-destructive py-4 px-6 rounded-lg text-base max-w-md mx-auto">
 						<p className="font-semibold mb-2">Failed to load images</p>
 						<p className="text-sm">
 							{error instanceof Error
