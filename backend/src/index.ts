@@ -18,6 +18,7 @@ app.use(
     origin: ["https://mandala-ai.pages.dev"],
     allowMethods: ["GET", "POST"],
     allowHeaders: ["*"],
+    credentials: true,
   }),
 );
 
