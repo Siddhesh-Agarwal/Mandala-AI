@@ -11,7 +11,7 @@ export type FormValues = z.infer<typeof formSchema>;
 // Extended form schema for gallery filtering (includes "all" option)
 export const galleryFormSchema = z.object({
   pattern: z.enum(["kolam", "rangoli", "all"]),
-  festiveMode: z.boolean(),
+  festiveModeOnly: z.boolean(),
 });
 
 export type GalleryFormValues = z.infer<typeof galleryFormSchema>;

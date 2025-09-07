@@ -25,7 +25,7 @@ import { galleryFormSchema } from "@/types";
 
 async function fetchImages(values: GalleryFormValues): Promise<Image[]> {
   const response = await fetch(
-    `${BASE_URL}/api/images?pattern=${values.pattern}&festiveMode=${values.festiveMode}`,
+    `${BASE_URL}/api/images?pattern=${values.pattern}&festiveModeOnly=${values.festiveModeOnly}`,
   );
   if (!response.ok) {
     throw new Error(`Failed to fetch images: ${response.status}`);
@@ -39,7 +39,7 @@ export default function GalleryPage() {
     mode: "onChange",
     defaultValues: {
       pattern: "all",
-      festiveMode: false,
+      festiveModeOnly: false,
     },
   });
   const formValues = form.watch();
@@ -47,7 +47,7 @@ export default function GalleryPage() {
     queryKey: [
       "images",
       formValues.pattern,
-      formValues.festiveMode,
+      formValues.festiveModeOnly,
       new Date(),
     ],
     queryFn: () => fetchImages(formValues),
@@ -88,7 +88,7 @@ export default function GalleryPage() {
             />
             <FormField
               control={form.control}
-              name="festiveMode"
+              name="festiveModeOnly"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center space-x-2 space-y-0">
                   <FormControl>
