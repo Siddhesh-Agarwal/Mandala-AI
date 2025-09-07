@@ -24,9 +24,11 @@ import type { GalleryFormValues, Image } from "@/types";
 import { galleryFormSchema } from "@/types";
 
 async function fetchImages(values: GalleryFormValues): Promise<Image[]> {
-  const response = await fetch(
-    `${BASE_URL}/api/images?pattern=${values.pattern}&festiveModeOnly=${values.festiveModeOnly}`,
-  );
+  const params = new URLSearchParams({
+    pattern: values.pattern,
+    festiveModeOnly: values.festiveModeOnly.toString(),
+  });
+  const response = await fetch(`${BASE_URL}/api/images?${params}`);
   if (!response.ok) {
     throw new Error(`Failed to fetch images: ${response.status}`);
   }
@@ -140,7 +142,7 @@ export default function GalleryPage() {
               <div className="relative overflow-hidden">
                 <img
                   src={image.url}
-                  alt={`AI-Generated ${image.metadata.pattern} pattern${image.metadata.festiveMode ? " in festive style" : ""}`}
+                  alt={`AI-Generated ${image.pattern} pattern${image.festiveMode ? " in festive style" : ""}`}
                   className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
                 />
@@ -163,7 +165,7 @@ export default function GalleryPage() {
                       onClick={() => {
                         const link = document.createElement("a");
                         link.href = image.url;
-                        link.download = `${image.metadata.pattern}-${image.id}.png`;
+                        link.download = `${image.pattern}-${image.id}.png`;
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);

@@ -15,13 +15,11 @@ const db = drizzle(env.MY_DB);
 app.use(
   "*",
   cors({
-    origin: "https://mandala-ai.pages.dev",
+    origin: ["https://mandala-ai.pages.dev"],
+    allowMethods: ["GET", "POST"],
+    allowHeaders: ["*"],
   }),
 );
-
-app.get("/health", (c) => {
-  return c.text("OK");
-});
 
 app.get(
   "/images",

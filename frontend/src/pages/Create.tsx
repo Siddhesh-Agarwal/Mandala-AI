@@ -4,7 +4,6 @@ import { ArrowLeft, Download, Loader, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -30,7 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BASE_URL } from "@/lib/const";
-import { type FormValues, formSchema, type GenerateResponse } from "@/types";
+import { type FormValues, formSchema, type Image } from "@/types";
 
 export default function CreatePage() {
   const form = useForm<FormValues>({
@@ -42,7 +41,7 @@ export default function CreatePage() {
   });
   const [images, setImages] = useState<string[]>([]);
 
-  async function generateImage(values: FormValues): Promise<GenerateResponse> {
+  async function generateImage(values: FormValues): Promise<Image[]> {
     const response = await fetch(`${BASE_URL}/api/generate`, {
       method: "POST",
       headers: {
@@ -61,8 +60,8 @@ export default function CreatePage() {
 
   const { mutate, isPending, isIdle, isError, error } = useMutation({
     mutationFn: generateImage,
-    onSuccess: (response: GenerateResponse) => {
-      const images = response?.images || [];
+    onSuccess: (response: Image[]) => {
+      const images = response.map((image) => image.url);
       setImages(images);
     },
     onError: (error) => {

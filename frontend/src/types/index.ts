@@ -20,11 +20,7 @@ export type GalleryFormValues = z.infer<typeof galleryFormSchema>;
 export type Image = {
   id: string;
   url: string;
-  metadata: FormValues;
+  pattern: string;
+  festiveMode: boolean;
+  createdAt: Date;
 };
-
-// API Response types
-export interface GenerateResponse {
-  images?: string[];
-  error?: string;
-}
