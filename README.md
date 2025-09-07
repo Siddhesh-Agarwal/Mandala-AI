@@ -12,7 +12,7 @@ This is a tool that generates Kolam and Rangoli patterns. It uses AI to create u
 
 ## Tech Stack
 
-### Frontend
+### [Frontend](https://mandala-ai.pages.dev/)
 
 - [Vite](https://vitejs.dev/)
 - [React](https://reactjs.org/)
@@ -21,7 +21,7 @@ This is a tool that generates Kolam and Rangoli patterns. It uses AI to create u
 - [Shadcn UI](https://ui.shadcn.com/)
 - [Zod](https://zod.dev/)
 
-### Backend
+### [Backend](https://mandala-ai-backend.siddhesh-agarwal.workers.dev/)
 
 - [Hono](https://hono.dev/)
 - [Drizzle](https://orm.drizzle.team/)
