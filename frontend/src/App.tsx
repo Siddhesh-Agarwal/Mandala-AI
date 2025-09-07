@@ -8,7 +8,15 @@ import HomePage from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
-  const queryClient = new QueryClient();
+  // Initialize the QueryClient with default options
+  // 10 seconds timeout on queries
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 10000,
+      },
+    },
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
