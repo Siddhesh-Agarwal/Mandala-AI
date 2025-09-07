@@ -1,13 +1,12 @@
 import { env } from "cloudflare:workers";
 import { zValidator } from "@hono/zod-validator";
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { cache } from "hono/cache";
-import z from "zod";
 import { imageTable } from "./db/schema";
-import { generateImage } from "./utils";
 import { filterSchema, generateSchema } from "./schema";
+import { generateImage } from "./utils";
 
 const app = new Hono().basePath("/api");
 const db = drizzle(env.MY_DB);
@@ -24,12 +23,12 @@ app.get(
     cacheControl: "max-age=3600",
   }),
   async (c) => {
-    const { pattern, festiveMode, limit, offset } = c.req.valid("param");
+    const { pattern, festiveModeOnly, limit, offset } = c.req.valid("param");
     const conditions = [];
     if (pattern !== "all") {
       conditions.push(eq(imageTable.pattern, pattern));
     }
-    if (festiveMode) {
+    if (festiveModeOnly) {
       conditions.push(eq(imageTable.festiveMode, true));
     }
     const images = await db
@@ -37,7 +36,8 @@ app.get(
       .from(imageTable)
       .where(and(...conditions))
       .limit(limit)
-      .offset(offset);
+      .offset(offset)
+      .orderBy(desc(imageTable.createdAt));
     return c.json(images);
   },
 );
