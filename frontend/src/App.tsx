@@ -14,6 +14,10 @@ export default function App() {
     defaultOptions: {
       queries: {
         staleTime: 10000,
+        retry: true,
+      },
+      mutations: {
+        retry: false,
       },
     },
   });
