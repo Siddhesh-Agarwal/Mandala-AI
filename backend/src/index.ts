@@ -4,10 +4,10 @@ import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { cache } from "hono/cache";
+import { cors } from "hono/cors";
 import { imageTable } from "./db/schema";
 import { filterSchema, generateSchema } from "./schema";
 import { generateImage } from "./utils";
-import { cors } from "hono/cors";
 
 const app = new Hono().basePath("/api");
 const db = drizzle(env.MY_DB);
@@ -55,8 +55,7 @@ app.post(
   cache({
     cacheName: "generate-images",
     cacheControl: "max-age=3600",
-    keyGenerator: (c) =>
-      c.req.formData().then((data) => [...data.values()].join("-")),
+    keyGenerator: (c) => c.body.toString(),
   }),
   async (c) => {
     const { pattern, festiveMode } = c.req.valid("form");
