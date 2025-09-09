@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { ArrowLeft, Download, Loader, Sparkles } from "lucide-react";
+import { ArrowLeft, Loader, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { ImageCard } from "@/components/ImageCard";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -39,7 +40,7 @@ export default function CreatePage() {
       festiveMode: false,
     },
   });
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<Image[]>([]);
 
   async function generateImage(values: FormValues): Promise<Image[]> {
     const response = await fetch(`${BASE_URL}/api/generate`, {
@@ -49,20 +50,16 @@ export default function CreatePage() {
       },
       body: JSON.stringify(values),
     });
-
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `Server error: ${response.status}`);
+      throw new Error(`Server error: ${response.status}`);
     }
-
     return response.json();
   }
 
   const { mutate, isPending, isIdle, isError, error } = useMutation({
     mutationFn: generateImage,
     onSuccess: (response: Image[]) => {
-      const images = response.map((image) => image.url);
-      setImages(images);
+      setImages(response);
     },
     onError: (error) => {
       console.error("Generation failed:", error);
@@ -73,20 +70,6 @@ export default function CreatePage() {
   async function handleSubmit(values: FormValues) {
     setImages([]); // Clear previous images
     mutate(values);
-  }
-
-  function downloadImage(imageUrl: string, index: number) {
-    const link = document.createElement("a");
-    link.href = imageUrl;
-    link.download = `${form.getValues("pattern")}-${Date.now()}-${index + 1}.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
-  function generateNewPattern() {
-    setImages([]);
-    // The form will be visible again since images array is empty
   }
 
   return (
@@ -201,13 +184,6 @@ export default function CreatePage() {
                     ? error.message
                     : "Please try again later."}
                 </p>
-                <Button
-                  variant="outline"
-                  className="mt-4"
-                  onClick={generateNewPattern}
-                >
-                  Try Again
-                </Button>
               </div>
             </CardContent>
           </Card>
@@ -224,40 +200,9 @@ export default function CreatePage() {
             </CardHeader>
             <CardContent>
               <div className="grid gap-6">
-                {images.map((image, index) => (
-                  <div
-                    key={`${form.getValues("pattern")}-${index}`}
-                    className="relative group"
-                  >
-                    <img
-                      src={image}
-                      alt={`Generated ${form.getValues("pattern")} pattern ${index + 1}${form.getValues("festiveMode") ? " in festive style" : ""}`}
-                      className="w-full aspect-square rounded-lg object-cover shadow-md"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        className="bg-white/90 text-black hover:bg-white"
-                        onClick={() => downloadImage(image, index)}
-                      >
-                        <Download className="h-4 w-4 mr-1" />
-                        Download
-                      </Button>
-                    </div>
-                  </div>
+                {images.map((image) => (
+                  <ImageCard image={image} key={image.id} />
                 ))}
-              </div>
-              <div className="flex justify-center mt-6">
-                <Button
-                  onClick={generateNewPattern}
-                  variant="outline"
-                  size="lg"
-                >
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  Generate Another
-                </Button>
               </div>
             </CardContent>
           </Card>

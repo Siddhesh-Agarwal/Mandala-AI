@@ -4,10 +4,10 @@ import { Hero } from "@/components/Hero";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen font-inter">
+    <main className="min-h-screen font-inter">
       <Hero />
       <Features />
       <Footer />
-    </div>
+    </main>
   );
 }
