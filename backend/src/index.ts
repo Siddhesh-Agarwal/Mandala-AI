@@ -55,7 +55,6 @@ app.post(
   cache({
     cacheName: "generate-images",
     cacheControl: "max-age=3600",
-    keyGenerator: (c) => c.body.toString(),
   }),
   async (c) => {
     const { pattern, festiveMode } = c.req.valid("form");
