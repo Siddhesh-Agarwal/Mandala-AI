@@ -18,11 +18,20 @@ function getPrompt(pattern: Pattern, festiveMode: boolean): string {
   }
 }
 
-function getDataURI(image?: string) {
+async function getDataURL(image?: string): Promise<string> {
   if (!image) {
     return "";
   }
-  return `data:image/jpeg;charset=utf-8;base64,${image}`;
+  // return `data:image/jpeg;charset=utf-8;base64,${image}`;
+  const key = crypto.randomUUID();
+  await env.R2.put(key, image, {
+    httpMetadata: {
+      contentType: "image/jpeg",
+      contentEncoding: "base64",
+      contentDisposition: "inline",
+    },
+  });
+  return key;
 }
 
 export async function generateImage(
@@ -37,11 +46,18 @@ export async function generateImage(
     promises.push(
       env.AI.run("@cf/black-forest-labs/flux-1-schnell", {
         prompt: prompt,
-        seed: Math.floor(Math.random() * 10000),
+        negative_prompt:
+          "blurry, messy, distorted shapes, extra limbs, random objects, text, watermark, low quality",
+        seed: 5,
       }),
     );
   }
 
   const responses = await Promise.all(promises);
-  return responses.map((response) => getDataURI(response.image));
+  const dataUrlPromises = responses.map((response) =>
+    getDataURL(response.image),
+  );
+  const uris = await Promise.all(dataUrlPromises);
+  const filteredUris = uris.filter((uri) => uri !== "");
+  return filteredUris;
 }

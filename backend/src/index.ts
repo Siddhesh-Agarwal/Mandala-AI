@@ -10,7 +10,7 @@ import { filterSchema, generateSchema } from "./schema";
 import { generateImage } from "./utils";
 
 const app = new Hono().basePath("/api");
-const db = drizzle(env.MY_DB);
+const db = drizzle(env.DB);
 
 app.use(
   "*",

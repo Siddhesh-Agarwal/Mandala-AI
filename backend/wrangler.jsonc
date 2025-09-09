@@ -13,15 +13,15 @@
   //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
   //   }
   // ],
-  // "r2_buckets": [
-  //   {
-  //     "binding": "MY_BUCKET",
-  //     "bucket_name": "my-bucket",
-  //   },
-  // ],
+  "r2_buckets": [
+    {
+      "binding": "R2",
+      "bucket_name": "mandala-ai",
+    },
+  ],
   "d1_databases": [
     {
-      "binding": "MY_DB",
+      "binding": "DB",
       "database_name": "mandala-ai",
       "database_id": "e5463bbb-a807-4e8c-b639-4c849dd9a306",
       "migrations_dir": "drizzle/migrations",
