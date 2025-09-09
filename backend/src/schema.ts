@@ -9,5 +9,5 @@ export const filterSchema = z.object({
 
 export const generateSchema = z.object({
   pattern: z.enum(["kolam", "rangoli"]),
-  festiveMode: z.boolean(),
+  festiveMode: z.boolean().default(false),
 });
