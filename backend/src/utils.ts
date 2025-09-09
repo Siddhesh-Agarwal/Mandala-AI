@@ -31,7 +31,7 @@ async function getDataURL(image?: string): Promise<string> {
       contentDisposition: "inline",
     },
   });
-  return key;
+  return `https://pub-c85aef26888243298d5f48ab9e3a8d8b.r2.dev/${key}`;
 }
 
 export async function generateImage(
