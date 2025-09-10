@@ -1,5 +1,4 @@
 import { Download, Eye, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
 import type { Image } from "@/types";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -28,16 +27,16 @@ export function ImageCard({ image }: { image: Image }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="absolute bottom-4 left-4 right-4 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
           <div className="flex gap-2">
-            <Link to={image.url} target="_blank">
+            <a href={image.url} target="_blank" rel="noopener noreferrer">
               <Button size="icon" variant="default">
                 <Eye className="h-4 w-4" />
               </Button>
-            </Link>
-            <Link to={image.url} target="_blank" download={`${image.id}.jpeg`}>
+            </a>
+            <a href={image.url} target="_blank" download={`${image.id}.jpeg`}>
               <Button size="icon" variant="secondary">
                 <Download className="h-4 w-4" />
               </Button>
-            </Link>
+            </a>
             <Button size="icon" variant="destructive" onClick={deleteImage}>
               <Trash2 className="h-4 w-4" />
             </Button>

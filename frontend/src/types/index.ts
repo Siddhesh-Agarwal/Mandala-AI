@@ -20,7 +20,7 @@ export type GalleryFormValues = z.infer<typeof galleryFormSchema>;
 export type Image = {
   id: string;
   url: string;
-  pattern: string;
+  pattern: "kolam" | "rangoli";
   festiveMode: boolean;
   createdAt: Date;
 };
