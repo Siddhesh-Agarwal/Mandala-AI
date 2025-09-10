@@ -21,6 +21,7 @@ import {
 import { BASE_URL } from "@/lib/const";
 import type { GalleryFormValues, Image } from "@/types";
 import { galleryFormSchema } from "@/types";
+import { useEffect } from "react";
 
 async function fetchImages(values: GalleryFormValues): Promise<Image[]> {
   const params = new URLSearchParams({
@@ -44,10 +45,14 @@ export default function GalleryPage() {
     },
   });
   const formValues = form.watch();
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isPending, isError, error, refetch } = useQuery({
     queryKey: ["images", formValues.pattern, formValues.festiveModeOnly],
     queryFn: () => fetchImages(formValues),
   });
+  
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary/10 to-accent/10 p-6">
