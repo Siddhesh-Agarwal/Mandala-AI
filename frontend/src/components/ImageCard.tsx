@@ -45,11 +45,11 @@ export function ImageCard({ image }: { image: Image }) {
         </div>
       </div>
       <CardFooter className="flex gap-4">
-        <Badge variant="secondary" className="uppercase mx-4">
+        <Badge variant="secondary" className="uppercase px-4 py-1.5">
           {image.pattern}
         </Badge>
         {image.festiveMode && (
-          <Badge variant="default" className="uppercase mx-4">
+          <Badge variant="default" className="uppercase px-4 py-1.5">
             Festive
           </Badge>
         )}
