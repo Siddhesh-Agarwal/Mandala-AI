@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Footer } from "./components/Footer";
 import { Toaster } from "./components/ui/sonner";
 import { TooltipProvider } from "./components/ui/tooltip";
 import CreatePage from "./pages/Create";
@@ -8,8 +9,6 @@ import HomePage from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
-  // Initialize the QueryClient with default options
-  // 10 seconds timeout on queries
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -34,6 +33,7 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        <Footer />
       </TooltipProvider>
     </QueryClientProvider>
   );
