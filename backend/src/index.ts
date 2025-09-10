@@ -25,10 +25,6 @@ app.use(
 app.get(
   "/images",
   zValidator("param", filterSchema),
-  cache({
-    cacheName: "generate-images",
-    cacheControl: "max-age=3600",
-  }),
   async (c) => {
     const { pattern, festiveModeOnly, limit, offset } = c.req.valid("param");
     const conditions = [];

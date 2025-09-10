@@ -45,12 +45,7 @@ export default function GalleryPage() {
   });
   const formValues = form.watch();
   const { data, isPending, isError, error } = useQuery({
-    queryKey: [
-      "images",
-      formValues.pattern,
-      formValues.festiveModeOnly,
-      new Date(),
-    ],
+    queryKey: ["images", formValues.pattern, formValues.festiveModeOnly],
     queryFn: () => fetchImages(formValues),
   });
 
