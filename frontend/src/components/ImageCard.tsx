@@ -1,9 +1,9 @@
 import { Download, Eye, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { Image } from "@/types";
+import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Card, CardHeader } from "./ui/card";
-import { Badge } from "./ui/badge";
 
 export function ImageCard({ image }: { image: Image }) {
   function deleteImage() {
@@ -19,11 +19,11 @@ export function ImageCard({ image }: { image: Image }) {
       className="group overflow-hidden hover:shadow-glow transition-all duration-300 border-0 bg-card/50 backdrop-blur-sm"
     >
       <CardHeader className="flex gap-4">
-        <Badge variant="secondary" className="uppercase text-lg mx-2">
+        <Badge variant="secondary" className="uppercase mx-4">
           {image.pattern}
         </Badge>
         {image.festiveMode && (
-          <Badge variant="default" className="uppercase text-lg mx-2">
+          <Badge variant="default" className="uppercase mx-4">
             Festive
           </Badge>
         )}
