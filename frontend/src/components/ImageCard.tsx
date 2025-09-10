@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import type { Image } from "@/types";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { Card, CardHeader } from "./ui/card";
+import { Card, CardFooter } from "./ui/card";
 
 export function ImageCard({ image }: { image: Image }) {
   function deleteImage() {
@@ -18,16 +18,6 @@ export function ImageCard({ image }: { image: Image }) {
       key={image.id}
       className="group overflow-hidden hover:shadow-glow transition-all duration-300 border-0 bg-card/50 backdrop-blur-sm"
     >
-      <CardHeader className="flex gap-4">
-        <Badge variant="secondary" className="uppercase mx-4">
-          {image.pattern}
-        </Badge>
-        {image.festiveMode && (
-          <Badge variant="default" className="uppercase mx-4">
-            Festive
-          </Badge>
-        )}
-      </CardHeader>
       <div className="relative overflow-hidden">
         <img
           src={image.url}
@@ -54,6 +44,16 @@ export function ImageCard({ image }: { image: Image }) {
           </div>
         </div>
       </div>
+      <CardFooter className="flex gap-4">
+        <Badge variant="secondary" className="uppercase mx-4">
+          {image.pattern}
+        </Badge>
+        {image.festiveMode && (
+          <Badge variant="default" className="uppercase mx-4">
+            Festive
+          </Badge>
+        )}
+      </CardFooter>
     </Card>
   );
 }
