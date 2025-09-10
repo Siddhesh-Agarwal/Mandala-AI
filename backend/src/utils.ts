@@ -1,6 +1,7 @@
 import { env } from "cloudflare:workers";
 import type { z } from "zod";
 import type { generateSchema } from "./schema";
+import { atob } from "buffer";
 
 type Pattern = z.infer<typeof generateSchema>["pattern"];
 
@@ -22,9 +23,11 @@ async function getDataURL(image?: string): Promise<string> {
   if (!image) {
     return "";
   }
+  const binaryImage = atob(image)
+  const img = Uint8Array.from(binaryImage, c => c.charCodeAt(0));
   // return `data:image/jpeg;charset=utf-8;base64,${image}`;
   const key = crypto.randomUUID();
-  await env.R2.put(key, image, {
+  await env.R2.put(key, img, {
     httpMetadata: {
       contentType: "image/jpeg",
       contentEncoding: "base64",
