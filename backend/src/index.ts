@@ -6,7 +6,7 @@ import { Hono } from "hono";
 import { cache } from "hono/cache";
 import { cors } from "hono/cors";
 import { imageTable } from "./db/schema";
-import { filterSchema, generateSchema } from "./schema";
+import { deleteSchema, filterSchema, generateSchema } from "./schema";
 import { generateImage } from "./utils";
 
 const app = new Hono().basePath("/api");
@@ -22,28 +22,24 @@ app.use(
   }),
 );
 
-app.get(
-  "/images",
-  zValidator("param", filterSchema),
-  async (c) => {
-    const { pattern, festiveModeOnly, limit, offset } = c.req.valid("param");
-    const conditions = [];
-    if (pattern !== "all") {
-      conditions.push(eq(imageTable.pattern, pattern));
-    }
-    if (festiveModeOnly) {
-      conditions.push(eq(imageTable.festiveMode, true));
-    }
-    const images = await db
-      .select()
-      .from(imageTable)
-      .where(and(...conditions))
-      .limit(limit)
-      .offset(offset)
-      .orderBy(desc(imageTable.createdAt));
-    return c.json(images);
-  },
-);
+app.get("/images", zValidator("param", filterSchema), async (c) => {
+  const { pattern, festiveModeOnly, limit, offset } = c.req.valid("param");
+  const conditions = [];
+  if (pattern !== "all") {
+    conditions.push(eq(imageTable.pattern, pattern));
+  }
+  if (festiveModeOnly) {
+    conditions.push(eq(imageTable.festiveMode, true));
+  }
+  const images = await db
+    .select()
+    .from(imageTable)
+    .where(and(...conditions))
+    .limit(limit)
+    .offset(offset)
+    .orderBy(desc(imageTable.createdAt));
+  return c.json(images);
+});
 
 app.post(
   "/generate",
@@ -70,5 +66,11 @@ app.post(
     return c.json(filteredData);
   },
 );
+
+app.delete("/images/:id", zValidator("param", deleteSchema), async (c) => {
+  const { id } = c.req.valid("param");
+  const result = await db.delete(imageTable).where(eq(imageTable.id, id));
+  return c.json(result);
+});
 
 export default app;
