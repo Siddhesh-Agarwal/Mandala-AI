@@ -26,7 +26,7 @@ export const Footer = () => {
             <ul className="space-y-3 font-inter">
               <li>
                 <a
-                  href="#features"
+                  href="/#features"
                   className="text-background/80 hover:text-background transition-colors"
                 >
                   Features
