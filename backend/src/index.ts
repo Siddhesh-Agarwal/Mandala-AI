@@ -23,7 +23,7 @@ app.use(
 );
 
 app.get("/images", zValidator("param", filterSchema), async (c) => {
-  const { pattern, festiveModeOnly, limit, offset } = c.req.valid("param");
+  const { pattern, festiveModeOnly} = c.req.valid("param");
   const conditions = [];
   if (pattern !== "all") {
     conditions.push(eq(imageTable.pattern, pattern));
@@ -35,8 +35,6 @@ app.get("/images", zValidator("param", filterSchema), async (c) => {
     .select()
     .from(imageTable)
     .where(and(...conditions))
-    .limit(limit)
-    .offset(offset)
     .orderBy(desc(imageTable.createdAt));
   return c.json(images);
 });
