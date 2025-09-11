@@ -16,14 +16,14 @@ app.use(
   "*",
   cors({
     origin: ["https://mandala-ai.pages.dev"],
-    allowMethods: ["GET", "POST"],
+    allowMethods: ["GET", "POST", "DELETE"],
     allowHeaders: ["*"],
     credentials: true,
   }),
 );
 
 app.get("/images", zValidator("param", filterSchema), async (c) => {
-  const { pattern, festiveModeOnly} = c.req.valid("param");
+  const { pattern, festiveModeOnly } = c.req.valid("param");
   const conditions = [];
   if (pattern !== "all") {
     conditions.push(eq(imageTable.pattern, pattern));
