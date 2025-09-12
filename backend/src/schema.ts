@@ -2,12 +2,12 @@ import { z } from "zod";
 
 export const filterSchema = z.object({
   pattern: z.enum(["kolam", "rangoli", "all"]).default("all"),
-  festiveModeOnly: z.boolean().default(false),
+  festiveModeOnly: z.enum(["yes", "no"]).default("no"),
 });
 
 export const generateSchema = z.object({
   pattern: z.enum(["kolam", "rangoli"]),
-  festiveMode: z.boolean().default(false),
+  festiveMode: z.enum(["yes", "no"]).default("no"),
 });
 
 export const deleteSchema = z.object({

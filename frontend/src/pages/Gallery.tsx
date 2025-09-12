@@ -40,7 +40,7 @@ export default function GalleryPage() {
     mode: "onChange",
     defaultValues: {
       pattern: "all",
-      festiveModeOnly: false,
+      festiveModeOnly: "no",
     },
   });
   const formValues = form.watch();
@@ -90,8 +90,10 @@ export default function GalleryPage() {
                 <FormItem className="flex flex-row items-center space-x-2 space-y-0">
                   <FormControl>
                     <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
+                      checked={field.value === "yes"}
+                      onCheckedChange={(value) =>
+                        field.onChange(value ? "yes" : "no")
+                      }
                     />
                   </FormControl>
                   <FormLabel className="font-normal cursor-pointer">

@@ -28,7 +28,7 @@ app.get("/images", zValidator("param", filterSchema), async (c) => {
   if (pattern !== "all") {
     conditions.push(eq(imageTable.pattern, pattern));
   }
-  if (festiveModeOnly) {
+  if (festiveModeOnly === "yes") {
     conditions.push(eq(imageTable.festiveMode, true));
   }
   const images = await db
@@ -48,12 +48,13 @@ app.post(
   }),
   async (c) => {
     const { pattern, festiveMode } = c.req.valid("form");
-    const images = await generateImage(pattern, festiveMode);
+    const festiveModeBool = festiveMode === "yes";
+    const images = await generateImage(pattern, festiveModeBool);
     const data = await Promise.all(
       images.map(async (image) => {
         const res = await db
           .insert(imageTable)
-          .values({ pattern, festiveMode, url: image })
+          .values({ pattern, festiveMode: festiveModeBool, url: image })
           .returning();
         if (res.length === 1) {
           return res[0];

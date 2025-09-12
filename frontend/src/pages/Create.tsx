@@ -37,7 +37,7 @@ export default function CreatePage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       pattern: "kolam",
-      festiveMode: false,
+      festiveMode: "no",
     },
   });
   const [images, setImages] = useState<Image[]>([]);
@@ -141,8 +141,8 @@ export default function CreatePage() {
                       <FormItem className="flex flex-row items-center space-x-2 space-y-0">
                         <FormControl>
                           <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
+                            checked={field.value === "yes"}
+                            onCheckedChange={(value) => field.onChange(value ? "yes" : "no")}
                           />
                         </FormControl>
                         <FormLabel className="font-normal cursor-pointer">
