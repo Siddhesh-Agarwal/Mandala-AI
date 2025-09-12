@@ -46,9 +46,12 @@ export default function CreatePage() {
     const response = await fetch(`${BASE_URL}/api/generate`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify({
+        pattern: values.pattern,
+        festiveMode: values.festiveMode,
+      }),
     });
     if (!response.ok) {
       throw new Error(`Server error: ${response.status}`);
