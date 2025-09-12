@@ -59,7 +59,14 @@ app.post("/generate", zValidator("form", generateSchema), async (c) => {
 
 app.delete("/images/:id", zValidator("param", deleteSchema), async (c) => {
   const { id } = c.req.valid("param");
-  const result = await db.delete(imageTable).where(eq(imageTable.id, id));
+  const result = await db
+    .select()
+    .from(imageTable)
+    .where(eq(imageTable.id, id));
+  if (result.length !== 1) {
+    return c.status(404);
+  }
+  env.R2.delete(result[0].url.substring(52));
   return c.json(result);
 });
 
