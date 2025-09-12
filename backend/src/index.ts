@@ -3,7 +3,6 @@ import { zValidator } from "@hono/zod-validator";
 import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
-import { cache } from "hono/cache";
 import { cors } from "hono/cors";
 import { imageTable } from "./db/schema";
 import { deleteSchema, filterSchema, generateSchema } from "./schema";
@@ -39,32 +38,24 @@ app.get("/images", zValidator("param", filterSchema), async (c) => {
   return c.json(images);
 });
 
-app.post(
-  "/generate",
-  zValidator("form", generateSchema),
-  cache({
-    cacheName: "generate-images",
-    cacheControl: "max-age=3600",
-  }),
-  async (c) => {
-    const { pattern, festiveMode } = c.req.valid("form");
-    const festiveModeBool = festiveMode === "yes";
-    const images = await generateImage(pattern, festiveModeBool);
-    const data = await Promise.all(
-      images.map(async (image) => {
-        const res = await db
-          .insert(imageTable)
-          .values({ pattern, festiveMode: festiveModeBool, url: image })
-          .returning();
-        if (res.length === 1) {
-          return res[0];
-        }
-      }),
-    );
-    const filteredData = data.filter((val) => val !== undefined);
-    return c.json(filteredData);
-  },
-);
+app.post("/generate", zValidator("form", generateSchema), async (c) => {
+  const { pattern, festiveMode } = c.req.valid("form");
+  const festiveModeBool = festiveMode === "yes";
+  const images = await generateImage(pattern, festiveModeBool);
+  const data = await Promise.all(
+    images.map(async (image) => {
+      const res = await db
+        .insert(imageTable)
+        .values({ pattern, festiveMode: festiveModeBool, url: image })
+        .returning();
+      if (res.length === 1) {
+        return res[0];
+      }
+    }),
+  );
+  const filteredData = data.filter((val) => val !== undefined);
+  return c.json(filteredData);
+});
 
 app.delete("/images/:id", zValidator("param", deleteSchema), async (c) => {
   const { id } = c.req.valid("param");
