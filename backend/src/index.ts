@@ -15,7 +15,7 @@ app.use(
   "*",
   cors({
     origin: ["https://mandala-ai.pages.dev"],
-    allowMethods: ["GET", "POST", "DELETE"],
+    allowMethods: ["*"],
     allowHeaders: ["*"],
     credentials: true,
   }),

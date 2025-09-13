@@ -1,8 +1,8 @@
 import { env } from "cloudflare:workers";
 import { atob } from "node:buffer";
+import { randomInt } from "node:crypto";
 import type { z } from "zod";
 import type { generateSchema } from "./schema";
-import { randomInt } from "node:crypto";
 
 type Pattern = z.infer<typeof generateSchema>["pattern"];
 
@@ -51,7 +51,7 @@ export async function generateImage(
       env.AI.run("@cf/black-forest-labs/flux-1-schnell", {
         prompt: prompt,
         negative_prompt:
-          "blurry, messy, distorted shapes, extra limbs, random objects, text, watermark, low quality",
+          "blurry, messy, distorted shapes, extra limbs, random objects, text, watermark, text, low quality",
         seed: randomInt(0, 1000),
       }),
     );
