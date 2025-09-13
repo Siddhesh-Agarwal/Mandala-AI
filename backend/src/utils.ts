@@ -2,6 +2,7 @@ import { env } from "cloudflare:workers";
 import { atob } from "node:buffer";
 import type { z } from "zod";
 import type { generateSchema } from "./schema";
+import { randomInt } from "node:crypto";
 
 type Pattern = z.infer<typeof generateSchema>["pattern"];
 
@@ -51,7 +52,7 @@ export async function generateImage(
         prompt: prompt,
         negative_prompt:
           "blurry, messy, distorted shapes, extra limbs, random objects, text, watermark, low quality",
-        seed: 5,
+        seed: randomInt(0, 1000),
       }),
     );
   }
