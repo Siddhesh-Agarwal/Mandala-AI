@@ -74,9 +74,4 @@ app.delete("/images/:id", zValidator("param", deleteSchema), async (c) => {
   return c.json(result);
 });
 
-app.get("/stats", async (c) => {
-  const result = await db.select({ total: sum(imageTable) }).from(imageTable);
-  return c.json(result);
-});
-
 export default app;
