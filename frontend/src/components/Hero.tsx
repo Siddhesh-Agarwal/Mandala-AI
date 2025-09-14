@@ -1,8 +1,22 @@
 import { Download, Palette, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { BASE_URL } from "@/lib/const";
 
-export const Hero = () => {
+async function getStats() {
+  const res = await fetch(`${BASE_URL}/api/stats`);
+  if (!res.ok) {
+    throw new Error(res.statusText);
+  }
+  return res.json();
+}
+
+export function Hero() {
+  const { data } = useQuery({
+    queryKey: ["stats"],
+    queryFn: getStats,
+  });
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -66,11 +80,11 @@ export const Hero = () => {
         <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
           {[
             {
-              title: "50K+",
-              description: "Patterns Created",
+              title: data?.total || 0,
+              descriptions: "Patterns Created",
             },
             {
-              title: "100+",
+              title: "6",
               description: "Design Styles",
             },
             {
@@ -94,4 +108,4 @@ export const Hero = () => {
       </div>
     </section>
   );
-};
+}

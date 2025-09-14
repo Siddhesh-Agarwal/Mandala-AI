@@ -1,6 +1,6 @@
 import { env } from "cloudflare:workers";
 import { zValidator } from "@hono/zod-validator";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sum } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
@@ -71,6 +71,11 @@ app.delete("/images/:id", zValidator("param", deleteSchema), async (c) => {
   const parts = deletedImage.split("/").filter((part) => part !== "");
   const key = parts[parts.length - 1];
   env.R2.delete(key);
+  return c.json(result);
+});
+
+app.get("/stats", async (c) => {
+  const result = await db.select({ total: sum(imageTable) }).from(imageTable);
   return c.json(result);
 });
 
