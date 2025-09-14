@@ -32,6 +32,23 @@ import {
 import { BASE_URL } from "@/lib/const";
 import { type FormValues, formSchema, type Image } from "@/types";
 
+async function generateImage(values: FormValues): Promise<Image[]> {
+  const response = await fetch(`${BASE_URL}/api/generate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: JSON.stringify({
+      pattern: values.pattern,
+      festiveMode: values.festiveMode,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`Server error: ${response.status}`);
+  }
+  return response.json();
+}
+
 export default function CreatePage() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -41,24 +58,6 @@ export default function CreatePage() {
     },
   });
   const [images, setImages] = useState<Image[]>([]);
-
-  async function generateImage(values: FormValues): Promise<Image[]> {
-    const response = await fetch(`${BASE_URL}/api/generate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: JSON.stringify({
-        pattern: values.pattern,
-        festiveMode: values.festiveMode,
-      }),
-    });
-    if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
-    }
-    return response.json();
-  }
-
   const { mutate, isPending, isIdle, isError, error } = useMutation({
     mutationFn: generateImage,
     onSuccess: (response: Image[]) => {
@@ -71,7 +70,7 @@ export default function CreatePage() {
   });
 
   async function handleSubmit(values: FormValues) {
-    setImages([]); // Clear previous images
+    setImages([]);
     mutate(values);
   }
 
@@ -142,7 +141,9 @@ export default function CreatePage() {
                         <FormControl>
                           <Checkbox
                             checked={field.value === "yes"}
-                            onCheckedChange={(value) => field.onChange(value ? "yes" : "no")}
+                            onCheckedChange={(value) =>
+                              field.onChange(value ? "yes" : "no")
+                            }
                           />
                         </FormControl>
                         <FormLabel className="font-normal cursor-pointer">
@@ -178,8 +179,8 @@ export default function CreatePage() {
             </CardContent>
           </Card>
         ) : isError ? (
-          <Card className="bg-card border border-destructive rounded-lg p-8 shadow-glow">
-            <CardContent className="text-center py-8">
+          <Card className="border-destructive">
+            <CardContent className="text-center">
               <div className="text-destructive-foreground bg-destructive/75 border border-destructive py-4 px-6 rounded-lg">
                 <p className="font-semibold mb-2">Generation Failed</p>
                 <p className="text-sm">
@@ -190,26 +191,24 @@ export default function CreatePage() {
               </div>
             </CardContent>
           </Card>
-        ) : images.length > 0 ? (
-          <Card className="bg-card border border-border rounded-lg p-8 shadow-glow">
-            <CardHeader className="text-center">
-              <CardTitle className="flex items-center justify-center">
+        ) : (
+          <div className="flex flex-col gap-6">
+            <div className="text-center">
+              <div className="flex items-center justify-center text-2xl">
                 <Sparkles className="h-6 w-6 text-primary mr-2" />
                 Generated Patterns
-              </CardTitle>
-              <CardDescription>
-                Your {form.getValues("pattern")} patterns are ready!
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-6">
-                {images.map((image) => (
-                  <ImageCard image={image} key={image.id} />
-                ))}
               </div>
-            </CardContent>
-          </Card>
-        ) : null}
+              <div className="text-muted">
+                Your {form.getValues("pattern")} patterns are ready!
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              {images.map((image) => (
+                <ImageCard image={image} key={image.id} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
