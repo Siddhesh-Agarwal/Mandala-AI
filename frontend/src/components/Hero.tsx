@@ -80,7 +80,7 @@ export function Hero() {
         <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
           {[
             {
-              title: data?.total || 0,
+              title: `${data.total || 0}+`,
               descriptions: "Patterns Created",
             },
             {
