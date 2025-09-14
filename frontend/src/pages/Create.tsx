@@ -33,15 +33,13 @@ import { BASE_URL } from "@/lib/const";
 import { type FormValues, formSchema, type Image } from "@/types";
 
 async function generateImage(values: FormValues): Promise<Image[]> {
+  const formdata = new FormData();
+  formdata.append("pattern", values.pattern);
+  formdata.append("festiveMode", values.festiveMode);
   const response = await fetch(`${BASE_URL}/api/generate`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: JSON.stringify({
-      pattern: values.pattern,
-      festiveMode: values.festiveMode,
-    }),
+    body: formdata,
+    redirect: "follow",
   });
   if (!response.ok) {
     throw new Error(`Server error: ${response.status}`);
