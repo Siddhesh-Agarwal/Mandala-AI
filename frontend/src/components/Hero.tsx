@@ -67,7 +67,7 @@ export function Hero() {
           {[
             {
               title: "10+",
-              descriptions: "Patterns Created",
+              description: "Patterns Created",
             },
             {
               title: "6",

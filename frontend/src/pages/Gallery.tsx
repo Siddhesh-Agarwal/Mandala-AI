@@ -78,6 +78,7 @@ export default function GalleryPage() {
                       <SelectItem value="all">Any Pattern</SelectItem>
                       <SelectItem value="kolam">Kolam</SelectItem>
                       <SelectItem value="rangoli">Rangoli</SelectItem>
+                      <SelectItem value="mandala">Mandala</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>
