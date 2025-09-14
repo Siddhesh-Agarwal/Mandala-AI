@@ -68,7 +68,7 @@ app.delete("/images/:id", zValidator("param", deleteSchema), async (c) => {
     return c.status(404);
   }
   const deletedImage = result[0].url;
-  const parts = deletedImage.split("/");
+  const parts = deletedImage.split("/").filter((part) => part !== "");
   const key = parts[parts.length - 1];
   env.R2.delete(key);
   return c.json(result);

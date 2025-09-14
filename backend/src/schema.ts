@@ -11,5 +11,5 @@ export const generateSchema = z.object({
 });
 
 export const deleteSchema = z.object({
-  id: z.uuid(),
+  id: z.string(),
 });

@@ -26,7 +26,6 @@ async function getDataURL(image?: string): Promise<string> {
   }
   const binaryImage = atob(image);
   const img = Uint8Array.from(binaryImage, (c) => c.charCodeAt(0));
-  // return `data:image/jpeg;charset=utf-8;base64,${image}`;
   const key = crypto.randomUUID();
   await env.R2.put(key, img, {
     httpMetadata: {
@@ -51,7 +50,7 @@ export async function generateImage(
       env.AI.run("@cf/black-forest-labs/flux-1-schnell", {
         prompt: prompt,
         negative_prompt:
-          "blurry, messy, distorted shapes, extra limbs, random objects, text, watermark, text, low quality",
+          "blurry, messy, distorted shapes, extra limbs, random objects, watermark, text, low quality",
         seed: randomInt(0, 1000),
       }),
     );
