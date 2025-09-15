@@ -22,5 +22,5 @@ export type Image = {
   url: string;
   pattern: "kolam" | "rangoli" | "mandala";
   festiveMode: boolean;
-  createdAt: Date;
+  createdAt: string;
 };

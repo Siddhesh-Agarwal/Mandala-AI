@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { Card, CardFooter, CardHeader } from "./ui/card";
 
 export function ImageCard({ image }: { image: Image }) {
+  console.log(image);
   function deleteImage() {
     fetch(`/api/images/${image.id}`, {
       method: "DELETE",
@@ -54,7 +55,7 @@ export function ImageCard({ image }: { image: Image }) {
         </div>
       </div>
       <CardFooter className="text-muted-foreground">
-        {image.createdAt.toLocaleDateString()}
+        {new Date(image.createdAt).toLocaleDateString()}
       </CardFooter>
     </Card>
   );
