@@ -49,7 +49,7 @@ export default function GalleryPage() {
     },
   });
   const formValues = form.watch();
-  const { data, isPending, isError, error } = useQuery({
+  const { data, error, status } = useQuery({
     queryKey: ["images", formValues.pattern, formValues.festiveModeOnly],
     queryFn: () => fetchImages(formValues),
     enabled: true,
@@ -109,14 +109,14 @@ export default function GalleryPage() {
           </form>
         </Form>
       </div>
-      {isPending ? (
+      {status === "pending" ? (
         <div className="flex justify-center items-center py-20">
           <Loader2 className="animate-spin" size={40} />
           <span className="ml-2 text-muted-foreground">
             Loading patterns...
           </span>
         </div>
-      ) : isError ? (
+      ) : status === "error" ? (
         <div className="text-center py-20">
           <div className="text-destructive-foreground bg-destructive/75 border border-destructive py-4 px-6 rounded-lg text-base max-w-md mx-auto">
             <p className="font-semibold mb-2">Failed to load images</p>

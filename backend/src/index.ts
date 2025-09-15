@@ -3,7 +3,6 @@ import { zValidator } from "@hono/zod-validator";
 import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
-import { cache } from "hono/cache";
 import { cors } from "hono/cors";
 import { imageTable } from "./db/schema";
 import { deleteSchema, filterSchema, generateSchema } from "./schema";
@@ -24,11 +23,6 @@ app.use(
 
 app.get(
   "/images",
-  cache({
-    cacheName: "images-list",
-    cacheControl: "max-age=300",
-    vary: ["Accept", "pattern", "festiveModeOnly"],
-  }),
   zValidator("param", filterSchema),
   async (c) => {
     const { pattern, festiveModeOnly } = c.req.valid("param");
