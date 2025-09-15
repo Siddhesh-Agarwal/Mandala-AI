@@ -25,9 +25,14 @@ import { galleryFormSchema } from "@/types";
 async function fetchImages(values: GalleryFormValues): Promise<Image[]> {
   const params = new URLSearchParams({
     pattern: values.pattern,
-    festiveModeOnly: values.festiveModeOnly.toString(),
+    festiveModeOnly: values.festiveModeOnly,
   });
-  const response = await fetch(`${BASE_URL}/api/images?${params}`);
+  const response = await fetch(`${BASE_URL}/api/images?${params}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   if (!response.ok) {
     throw new Error(`Failed to fetch images: ${response.status}`);
   }
@@ -47,7 +52,7 @@ export default function GalleryPage() {
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["images", formValues.pattern, formValues.festiveModeOnly],
     queryFn: () => fetchImages(formValues),
-    enabled: true, // Ensure the query is always enabled
+    enabled: true,
   });
 
   return (
@@ -59,8 +64,6 @@ export default function GalleryPage() {
         <p className="text-xl text-muted-foreground text-center max-w-2xl mx-auto mb-12">
           Explore our collection of AI-generated Kolam and Rangoli patterns
         </p>
-
-        {/* Filters */}
         <Form {...form}>
           <form className="flex flex-col sm:flex-row gap-4 md:gap-6 items-center justify-center mb-12">
             <FormField
