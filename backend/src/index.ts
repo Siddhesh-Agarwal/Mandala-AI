@@ -1,8 +1,9 @@
 import { env } from "cloudflare:workers";
 import { zValidator } from "@hono/zod-validator";
-import { and, desc, eq, sum } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
+import { cache } from "hono/cache";
 import { cors } from "hono/cors";
 import { imageTable } from "./db/schema";
 import { deleteSchema, filterSchema, generateSchema } from "./schema";
@@ -21,22 +22,31 @@ app.use(
   }),
 );
 
-app.get("/images", zValidator("param", filterSchema), async (c) => {
-  const { pattern, festiveModeOnly } = c.req.valid("param");
-  const conditions = [];
-  if (pattern !== "all") {
-    conditions.push(eq(imageTable.pattern, pattern));
-  }
-  if (festiveModeOnly === "yes") {
-    conditions.push(eq(imageTable.festiveMode, true));
-  }
-  const images = await db
-    .select()
-    .from(imageTable)
-    .where(and(...conditions))
-    .orderBy(desc(imageTable.createdAt));
-  return c.json(images);
-});
+app.get(
+  "/images",
+  cache({
+    cacheName: "images-list",
+    cacheControl: "max-age=300",
+    vary: ["Accept", "pattern", "festiveModeOnly"],
+  }),
+  zValidator("param", filterSchema),
+  async (c) => {
+    const { pattern, festiveModeOnly } = c.req.valid("param");
+    const conditions = [];
+    if (pattern !== "all") {
+      conditions.push(eq(imageTable.pattern, pattern));
+    }
+    if (festiveModeOnly === "yes") {
+      conditions.push(eq(imageTable.festiveMode, true));
+    }
+    const images = await db
+      .select()
+      .from(imageTable)
+      .where(and(...conditions))
+      .orderBy(desc(imageTable.createdAt));
+    return c.json(images);
+  },
+);
 
 app.post("/generate", zValidator("form", generateSchema), async (c) => {
   const { pattern, festiveMode } = c.req.valid("form");
