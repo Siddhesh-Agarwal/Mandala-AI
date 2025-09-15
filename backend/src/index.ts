@@ -48,36 +48,24 @@ app.get(
   },
 );
 
-app.post(
-  "/generate",
-  zValidator("form", generateSchema),
-  async (c, next) => {
-    const { pattern, festiveMode } = c.req.valid("form");
-    return cache({
-      cacheName: "generated-images",
-      cacheControl: "max-age=3600",
-      keyGenerator: (c) => `${c.req.method}-${pattern}-${festiveMode}`,
-    })(c, next);
-  },
-  async (c) => {
-    const { pattern, festiveMode } = c.req.valid("form");
-    const festiveModeBool = festiveMode === "yes";
-    const images = await generateImage(pattern, festiveModeBool);
-    const data = await Promise.all(
-      images.map(async (image) => {
-        const res = await db
-          .insert(imageTable)
-          .values({ pattern, festiveMode: festiveModeBool, url: image })
-          .returning();
-        if (res.length === 1) {
-          return res[0];
-        }
-      }),
-    );
-    const filteredData = data.filter((val) => val !== undefined);
-    return c.json(filteredData);
-  },
-);
+app.post("/generate", zValidator("form", generateSchema), async (c) => {
+  const { pattern, festiveMode } = c.req.valid("form");
+  const festiveModeBool = festiveMode === "yes";
+  const images = await generateImage(pattern, festiveModeBool);
+  const data = await Promise.all(
+    images.map(async (image) => {
+      const res = await db
+        .insert(imageTable)
+        .values({ pattern, festiveMode: festiveModeBool, url: image })
+        .returning();
+      if (res.length === 1) {
+        return res[0];
+      }
+    }),
+  );
+  const filteredData = data.filter((val) => val !== undefined);
+  return c.json(filteredData);
+});
 
 app.delete("/images/:id", zValidator("param", deleteSchema), async (c) => {
   const { id } = c.req.valid("param");
