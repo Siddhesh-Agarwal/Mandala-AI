@@ -55,7 +55,7 @@ export function ImageCard({ image }: { image: Image }) {
           </div>
         </div>
       </div>
-      <CardFooter className="text-muted-foreground">
+      <CardFooter className="text-muted-foreground text-right">
         {moment(new Date(image.createdAt)).fromNow()}
       </CardFooter>
     </Card>
