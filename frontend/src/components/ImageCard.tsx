@@ -1,4 +1,5 @@
 import { Download, Eye, Trash2 } from "lucide-react";
+import moment from "moment";
 import type { Image } from "@/types";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -55,7 +56,7 @@ export function ImageCard({ image }: { image: Image }) {
         </div>
       </div>
       <CardFooter className="text-muted-foreground">
-        {new Date(image.createdAt).toLocaleDateString()}
+        {moment(new Date(image.createdAt)).fromNow()}
       </CardFooter>
     </Card>
   );
