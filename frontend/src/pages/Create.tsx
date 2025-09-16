@@ -85,14 +85,6 @@ export default function CreatePage() {
         {isIdle ? (
           // Main Card
           <Card className="bg-card border border-border rounded-lg p-8 shadow-glow">
-            {/* Back Button */}
-            <Link
-              to="/"
-              className="inline-flex items-center text-muted-foreground hover:text-foreground mb-8 transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Home
-            </Link>
             <CardHeader className="text-center">
               <CardTitle className="flex items-center justify-center">
                 <Sparkles className="h-8 w-8 text-primary mr-3" />

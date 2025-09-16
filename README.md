@@ -28,4 +28,5 @@ This is a tool that generates Kolam and Rangoli patterns. It uses AI to create u
 - [Zod](https://zod.dev/)
 - [Cloudflare AI](https://developers.cloudflare.com/ai/)
 - [Cloudflare D1](https://developers.cloudflare.com/d1/)
+- [Cloudflare R2](https://developers.cloudflare.com/r2/)
 - [Cloudflare Workers](https://developers.cloudflare.com/workers/)
