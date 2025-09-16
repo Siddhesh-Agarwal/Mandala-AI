@@ -1,6 +1,6 @@
 import { Sparkles } from "lucide-react";
 
-export const Footer = () => {
+export function Footer() {
   return (
     <footer className="bg-foreground text-background py-16">
       <div className="max-w-7xl mx-auto px-6">
@@ -21,15 +21,15 @@ export const Footer = () => {
           {/* Product */}
           <div>
             <h4 className="font-playfair text-lg font-semibold mb-4">
-              Product
+              Features
             </h4>
             <ul className="space-y-3 font-inter">
               <li>
                 <a
-                  href="/#features"
+                  href="/create"
                   className="text-background/80 hover:text-background transition-colors"
                 >
-                  Features
+                  Generate
                 </a>
               </li>
               <li>
@@ -54,4 +54,4 @@ export const Footer = () => {
       </div>
     </footer>
   );
-};
+}

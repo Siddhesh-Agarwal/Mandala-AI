@@ -75,6 +75,13 @@ export default function CreatePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary/10 to-accent/10 flex items-center justify-center p-6">
       <div className="w-full max-w-md">
+        <Link
+          to="/"
+          className="inline-flex items-center text-muted-foreground hover:text-foreground mb-8 transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Home
+        </Link>
         {isIdle ? (
           // Main Card
           <Card className="bg-card border border-border rounded-lg p-8 shadow-glow">
