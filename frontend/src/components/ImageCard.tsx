@@ -6,7 +6,6 @@ import { Button } from "./ui/button";
 import { Card, CardFooter, CardHeader } from "./ui/card";
 
 export function ImageCard({ image }: { image: Image }) {
-  console.log(image);
   function deleteImage() {
     fetch(`/api/images/${image.id}`, {
       method: "DELETE",
