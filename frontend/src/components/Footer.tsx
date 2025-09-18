@@ -1,5 +1,4 @@
 import { Sparkles } from "lucide-react";
-import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
@@ -24,20 +23,20 @@ export function Footer() {
             </h4>
             <ul className="space-y-3 font-inter">
               <li>
-                <Link
-                  to="/create"
+                <a
+                  href="/create"
                   className="text-background/80 hover:text-background transition-colors"
                 >
                   Generate
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
-                  to="/gallery"
+                <a
+                  href="/gallery"
                   className="text-background/80 hover:text-background transition-colors"
                 >
                   Gallery
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
