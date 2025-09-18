@@ -1,17 +1,37 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Download, Eye, Trash2 } from "lucide-react";
 import moment from "moment";
+import { toast } from "sonner";
+import { BASE_URL } from "@/lib/const";
 import type { Image } from "@/types";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Card, CardFooter, CardHeader } from "./ui/card";
 
 export function ImageCard({ image }: { image: Image }) {
-  function deleteImage() {
-    fetch(`/api/images/${image.id}`, {
-      method: "DELETE",
-    });
-    window.location.reload();
-  }
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteImage, isPending } = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`${BASE_URL}/api/images/${image.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to delete image: ${response.status}`);
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["images"] });
+      toast.success("Image deleted successfully");
+    },
+    onError: () => {
+      toast.error("Failed to delete image. Please try again.");
+    },
+  });
 
   return (
     <Card
@@ -48,7 +68,12 @@ export function ImageCard({ image }: { image: Image }) {
                 <Download className="h-4 w-4" />
               </Button>
             </a>
-            <Button size="icon" variant="destructive" onClick={deleteImage}>
+            <Button
+              size="icon"
+              variant="destructive"
+              onClick={() => deleteImage()}
+              disabled={isPending}
+            >
               <Trash2 className="h-4 w-4" />
             </Button>
           </div>
