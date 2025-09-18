@@ -50,7 +50,7 @@ export function Hero() {
               Start Creating
             </Button>
           </Link>
-          <Link to={"gallery"}>
+          <Link to={"/gallery"}>
             <Button
               variant={"default"}
               size="xl"

@@ -1,11 +1,11 @@
 import { Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
     <footer className="bg-foreground text-background py-16">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center mb-4">
               <Sparkles className="h-8 w-8 text-primary-glow mr-3" />
@@ -18,27 +18,26 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Product */}
           <div>
             <h4 className="font-playfair text-lg font-semibold mb-4">
               Features
             </h4>
             <ul className="space-y-3 font-inter">
               <li>
-                <a
-                  href="/create"
+                <Link
+                  to="/create"
                   className="text-background/80 hover:text-background transition-colors"
                 >
                   Generate
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/gallery"
+                <Link
+                  to="/gallery"
                   className="text-background/80 hover:text-background transition-colors"
                 >
                   Gallery
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

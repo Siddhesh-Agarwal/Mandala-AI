@@ -63,7 +63,12 @@ export function ImageCard({ image }: { image: Image }) {
                 <Eye className="h-4 w-4" />
               </Button>
             </a>
-            <a href={image.url} target="_blank" download={`${image.id}.jpeg`}>
+            <a
+              href={image.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              download={`${image.id}.jpeg`}
+            >
               <Button size="icon" variant="secondary">
                 <Download className="h-4 w-4" />
               </Button>
