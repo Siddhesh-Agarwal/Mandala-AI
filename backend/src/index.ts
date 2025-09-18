@@ -21,26 +21,22 @@ app.use(
   }),
 );
 
-app.get(
-  "/images",
-  zValidator("param", filterSchema),
-  async (c) => {
-    const { pattern, festiveModeOnly } = c.req.valid("param");
-    const conditions = [];
-    if (pattern !== "all") {
-      conditions.push(eq(imageTable.pattern, pattern));
-    }
-    if (festiveModeOnly === "yes") {
-      conditions.push(eq(imageTable.festiveMode, true));
-    }
-    const images = await db
-      .select()
-      .from(imageTable)
-      .where(and(...conditions))
-      .orderBy(desc(imageTable.createdAt));
-    return c.json(images);
-  },
-);
+app.get("/images", zValidator("query", filterSchema), async (c) => {
+  const { pattern, festiveModeOnly } = c.req.valid("query");
+  const conditions = [];
+  if (pattern !== "all") {
+    conditions.push(eq(imageTable.pattern, pattern));
+  }
+  if (festiveModeOnly === "yes") {
+    conditions.push(eq(imageTable.festiveMode, true));
+  }
+  const images = await db
+    .select()
+    .from(imageTable)
+    .where(and(...conditions))
+    .orderBy(desc(imageTable.createdAt));
+  return c.json(images);
+});
 
 app.post("/generate", zValidator("form", generateSchema), async (c) => {
   const { pattern, festiveMode } = c.req.valid("form");
