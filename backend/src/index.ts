@@ -7,17 +7,24 @@ import { cors } from "hono/cors";
 import { imageTable } from "./db/schema";
 import { deleteSchema, filterSchema, generateSchema } from "./schema";
 import { generateImage } from "./utils";
+import { csrf } from "hono/csrf";
 
 const app = new Hono().basePath("/api");
 const db = drizzle(env.DB);
 
 app.use(
-  "*",
   cors({
-    origin: ["https://mandala-ai.pages.dev"],
+    origin: "https://mandala-ai.pages.dev",
     allowMethods: ["GET", "POST", "DELETE"],
     allowHeaders: ["*"],
     credentials: true,
+  }),
+);
+
+app.use(
+  csrf({
+    origin: "https://mandala-ai.pages.dev",
+    secFetchSite: ["same-origin", "none"],
   }),
 );
 
